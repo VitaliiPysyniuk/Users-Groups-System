@@ -2,12 +2,8 @@ import pytest
 from django.urls import reverse
 import json
 
+from .test_models import users_test_data
 from ..models import UsedModel
-
-users_test_data = [
-    {'email': 'user1@gmail.com', 'username': 'user1'},
-    {'email': 'user2@gmail.com', 'username': 'user2'},
-]
 
 
 @pytest.fixture()
