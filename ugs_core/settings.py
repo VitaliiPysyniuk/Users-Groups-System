@@ -78,12 +78,6 @@ ROOT_URLCONF = 'ugs_core.urls'
 
 WSGI_APPLICATION = 'ugs_core.wsgi.application'
 
-# Rest Framework
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [],
-    'DEFAULT_PERMISSION_CLASSES': []
-}
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
