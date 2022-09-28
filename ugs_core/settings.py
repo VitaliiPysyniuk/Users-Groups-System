@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'ugs_backend_core.urls'
+ROOT_URLCONF = 'ugs_core.urls'
 
 # TEMPLATES = [
 #     {
@@ -76,7 +76,7 @@ ROOT_URLCONF = 'ugs_backend_core.urls'
 #     },
 # ]
 
-WSGI_APPLICATION = 'ugs_backend_core.wsgi.application'
+WSGI_APPLICATION = 'ugs_core.wsgi.application'
 
 # Rest Framework
 REST_FRAMEWORK = {
