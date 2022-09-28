@@ -38,9 +38,12 @@ jobs:
           flake8 --statistics
       - name: Test with PyTest
         env:
+          DEBUG: ${{secrets.DEBUG}}
+          SECRET_KEY: ${{secrets.SECRET_KEY}}
+          TIME_ZONE: ${{secrets.TIME_ZONE}}
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: 1111
-          POSTGRES_HOST: 127.0.0.1
+          POSTGRES_HOST: 0.0.0.0
           POSTGRES_PORT: 5432
           POSTGRES_DB: test_db
         run: |
