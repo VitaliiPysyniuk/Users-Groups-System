@@ -4,7 +4,7 @@ AVAILABLE_FILTER_FUNCTIONS = ('name', 'name__startswith', 'members_number', 'mem
                               'members_number__gt')
 
 
-def parse_query_params(query_params: dict) -> dict:
+def parse_groups_query_params(query_params: dict) -> dict:
     """
     Parses query parameters.
 

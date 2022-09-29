@@ -3,7 +3,7 @@ from django.db.models import Count
 
 from .models import GroupModel
 from .serializers import GroupSerializer, GroupWithExtraFieldSerializer
-from .services import parse_query_params
+from .services import parse_groups_query_params
 
 
 class GroupListCreateView(ListCreateAPIView):
@@ -24,11 +24,11 @@ class GroupListCreateView(ListCreateAPIView):
 
         if with_members_number:
             self.queryset = GroupModel.objects.values('id', 'name', 'description')\
-                .annotate(members_number=Count('users__id'))
+                .annotate(members_number=Count('users__id')).order_by('id')
             self.serializer_class = GroupWithExtraFieldSerializer
 
         if query_params:
-            query_params = parse_query_params(query_params)
+            query_params = parse_groups_query_params(query_params)
             queryset = self.queryset.filter(**query_params)
             return queryset
         return super().get_queryset()
