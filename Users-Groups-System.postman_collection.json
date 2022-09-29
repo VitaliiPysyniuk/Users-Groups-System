@@ -1,0 +1,374 @@
+{
+	"info": {
+		"_postman_id": "11124f7e-c9f5-433c-b28b-ce0d27d8814b",
+		"name": "Users-Groups-System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13767249"
+	},
+	"item": [
+		{
+			"name": "/users",
+			"item": [
+				{
+					"name": "get_all_users_without_filtering",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_all_users_with_filtering",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"users"
+							],
+							"query": [
+								{
+									"key": "email__endswith",
+									"value": "gmail.com",
+									"disabled": true
+								},
+								{
+									"key": "email__startswith",
+									"value": "user5",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "user4@gmail.com",
+									"disabled": true
+								},
+								{
+									"key": "username__startswith",
+									"value": "user",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "user2@gmail.com",
+									"disabled": true
+								},
+								{
+									"key": "is_admin",
+									"value": "False",
+									"disabled": true
+								},
+								{
+									"key": "created_at__date",
+									"value": "2022-09-28",
+									"disabled": true
+								},
+								{
+									"key": "created_at__date__lt",
+									"value": "2022-09-28",
+									"disabled": true
+								},
+								{
+									"key": "created_at__date__gt",
+									"value": "2022-09-28",
+									"disabled": true
+								},
+								{
+									"key": "groups__in",
+									"value": "2,4,1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_new_user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user5@gmail.com\",\n    \"username\": \"user5@gmail.com\",\n    \"groups\": [1]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_single_user",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"groups\": [2, 3]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/users/12",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"users",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/users/10",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"users",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/groups",
+			"item": [
+				{
+					"name": "get_all_groups_without_filtering",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/groups",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_all_groups_with_filtering",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/groups",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"groups"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Group 2",
+									"disabled": true
+								},
+								{
+									"key": "name__startswith",
+									"value": "group",
+									"disabled": true
+								},
+								{
+									"key": "with_members_number",
+									"value": "True",
+									"disabled": true
+								},
+								{
+									"key": "members_number",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "members_number__lt",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "members_number__gt",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add_new_group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Group 4\",\n    \"description\": \"Description Group 4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/groups",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_single_group",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Description 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/groups/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"groups",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_group",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/v1/groups/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"groups",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
