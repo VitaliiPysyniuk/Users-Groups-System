@@ -1,4 +1,4 @@
-from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import ParseError
 
 from .models import UsedModel
 
@@ -26,7 +26,7 @@ def parse_query_params(query_params: dict) -> dict:
 
     for filter_function, filter_input in query_params.items():
         if filter_function not in AVAILABLE_FILTER_FUNCTIONS:
-            raise NotFound(detail=f'Invalid filter function: {filter_function}')
+            raise ParseError(detail=f'Invalid filter function: {filter_function}')
         else:
             if filter_input == 'True' or filter_input == 'False':
                 parsed_query_params[filter_function] = bool(filter_input)
