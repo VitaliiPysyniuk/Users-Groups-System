@@ -1,9 +1,12 @@
 import pytest
 from django.urls import reverse
+from datetime import datetime
+import pytz
 import json
 
 from .test_models import users_test_data
 from ..models import UsedModel
+from utils import url_reverse_with_query_params
 
 
 @pytest.fixture()
@@ -100,3 +103,51 @@ def test_delete_user_with_not_correct_data(client):
     response = client.delete(url)
 
     assert response.status_code == 404
+
+
+@pytest.mark.django_db(reset_sequences=True)
+@pytest.mark.usefixtures('fill_database')
+@pytest.mark.parametrize('params,expected_ids', [
+    ({'email__endswith': 'gmail.com'}, [1, 2]),
+    ({'email__endswith': 'ukr.net'}, [3, 5]),
+    ({'email__endswith': 'yahoo.com'}, [4]),
+    ({'email__endswith': 'yahoo.net'}, []),
+    ({'email__startswith': 'user'}, [1, 2, 3, 4, 5]),
+    ({'email': 'user1@gmail.com'}, [1]),
+    ({'email': 'user4@yahoo.com'}, [4]),
+    ({'email': 'user4@yahoo.net'}, []),
+    ({'username__startswith': 'user'}, [1, 2, 3, 4, 5]),
+    ({'username__startswith': 'user1'}, [1]),
+    ({'username': 'user1'}, [1]),
+    ({'username': 'user6'}, []),
+    ({'is_admin': 'True'}, [1, 3, 5]),
+    ({'is_admin': 'False'}, [2, 4]),
+    ({'created_at__date': datetime(2022, 9, 21, tzinfo=pytz.UTC).strftime("%Y-%m-%d")}, [1, 3, 5]),
+    ({'created_at__date': datetime(2022, 9, 25, tzinfo=pytz.UTC).strftime("%Y-%m-%d")}, [2]),
+    ({'created_at__date': datetime(2022, 9, 29, tzinfo=pytz.UTC).strftime("%Y-%m-%d")}, [4]),
+    ({'created_at__date__lt': datetime(2022, 9, 29, tzinfo=pytz.UTC).strftime("%Y-%m-%d")}, [1, 2, 3, 5]),
+    ({'created_at__date__lt': datetime(2022, 9, 25, tzinfo=pytz.UTC).strftime("%Y-%m-%d")}, [1, 3, 5]),
+    ({'created_at__date__gt': datetime(2022, 9, 28, tzinfo=pytz.UTC).strftime("%Y-%m-%d")}, [4]),
+    ({'created_at__date__gt': datetime(2022, 9, 23, tzinfo=pytz.UTC).strftime("%Y-%m-%d")}, [2, 4]),
+    ({'groups__in': '1'}, [1, 2, 5]),
+    ({'groups__in': '2'}, [1, 3]),
+    ({'groups__in': '3'}, [1, 2, 4]),
+    ({'groups__in': '4'}, [3, 4]),
+    ({'groups__in': '5'}, [1, 2, 3, 4, 5]),
+    ({'groups__in': '1,4'}, [1, 2, 4, 3, 5]),
+    ({'groups__in': '2,4'}, [1, 3, 4]),
+    ({'email__endswith': 'ukr.net', 'groups__in': '2,3'}, [3]),
+    ({'email__endswith': 'yahoo.com', 'groups__in': '4'}, [4]),
+])
+def test_users_filtering(params, expected_ids, client):
+    base_url = reverse('get_create_users')
+    url = url_reverse_with_query_params(base_url, params)
+
+    response = client.get(url)
+    data = response.data
+
+    assert response.status_code == 200
+    assert isinstance(data, list)
+    assert len(data) == len(expected_ids)
+    for user in data:
+        assert user['id'] in expected_ids

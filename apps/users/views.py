@@ -1,9 +1,8 @@
 from rest_framework.generics import ListCreateAPIView, UpdateAPIView, DestroyAPIView
-from django.db.models import Count
 
 from .models import UsedModel
 from .serializers import UserCreateUpdateSerializer, UserListSerializer
-from .services import parse_query_params
+from .services import parse_users_query_params
 
 
 class UserListCreateView(ListCreateAPIView):
@@ -25,7 +24,7 @@ class UserListCreateView(ListCreateAPIView):
         """Return new queryset based on query parameters if they were set."""
         query_params = self.request.query_params
         if query_params:
-            query_params = parse_query_params(query_params)
+            query_params = parse_users_query_params(query_params)
             queryset = self.queryset.filter(**query_params)
             return queryset
         return super().get_queryset()
