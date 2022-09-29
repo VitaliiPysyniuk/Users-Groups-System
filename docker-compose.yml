@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  ugs_database:
+    image: postgres
+    container_name: ugs_database
+    env_file:
+      - .env.db
+    ports:
+      - "5433:5432"
+    restart: on-failure
+
+  ugs_app:
+    build:
+      context: .
+    container_name: ugs_app
+    env_file:
+      - .env
+      - .env.db
+    ports:
+      - "8000:8000"
+    restart: on-failure
+    depends_on:
+      - ugs_database
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
