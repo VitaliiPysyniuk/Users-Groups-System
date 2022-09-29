@@ -14,7 +14,7 @@ class UserListCreateView(ListCreateAPIView):
     Create a new user instance.
     """
     serializer_class = UserCreateUpdateSerializer
-    queryset = UsedModel.objects.prefetch_related('groups')
+    queryset = UsedModel.objects.prefetch_related('groups').order_by('id')
 
     def get(self, request, *args, **kwargs):
         self.serializer_class = UserListSerializer

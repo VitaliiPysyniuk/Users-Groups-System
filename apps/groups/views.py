@@ -22,7 +22,7 @@ class GroupListCreateView(ListCreateAPIView):
         query_params = dict(self.request.query_params.items())
         with_members_number = query_params.pop('with_members_number', None)
 
-        if with_members_number:
+        if with_members_number or [param for param in query_params.keys() if param.startswith('members_number')]:
             self.queryset = GroupModel.objects.values('id', 'name', 'description')\
                 .annotate(members_number=Count('users__id')).order_by('id')
             self.serializer_class = GroupWithExtraFieldSerializer
