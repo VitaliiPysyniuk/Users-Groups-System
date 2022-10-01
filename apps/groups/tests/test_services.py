@@ -6,14 +6,12 @@ from ..services import parse_groups_query_params
 
 def test_parse_groups_query_params_with_correct_data():
     valid_query_params = {
-        'name': 'Group 1',
-        'members_number': '2',
+        'members_number__gte': '2',
     }
 
     result = parse_groups_query_params(valid_query_params)
 
-    assert result['name'] == valid_query_params['name']
-    assert result['members_number'] == valid_query_params['members_number']
+    assert result['members_number__gte'] == valid_query_params['members_number__gte']
 
 
 @pytest.mark.parametrize('invalid_query_params', [
