@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "11124f7e-c9f5-433c-b28b-ce0d27d8814b",
+		"_postman_id": "97384558-d00e-45ea-98f9-21512c49743a",
 		"name": "Users-Groups-System",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "13767249"
@@ -63,18 +63,8 @@
 									"disabled": true
 								},
 								{
-									"key": "email",
-									"value": "user4@gmail.com",
-									"disabled": true
-								},
-								{
 									"key": "username__startswith",
 									"value": "user",
-									"disabled": true
-								},
-								{
-									"key": "username",
-									"value": "user2@gmail.com",
 									"disabled": true
 								},
 								{
@@ -245,11 +235,6 @@
 							],
 							"query": [
 								{
-									"key": "name",
-									"value": "Group 2",
-									"disabled": true
-								},
-								{
 									"key": "name__startswith",
 									"value": "group",
 									"disabled": true
@@ -286,7 +271,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Group 4\",\n    \"description\": \"Description Group 4\"\n}",
+							"raw": "{\n    \"name\": \"Group 5\",\n    \"description\": \"Description Group 5\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -318,7 +303,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"description\": \"Description 1\"\n}",
+							"raw": "{\n    \"name\": \"Group 2\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -326,7 +311,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/v1/groups/1",
+							"raw": "http://127.0.0.1:8000/v1/groups/3",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -338,7 +323,7 @@
 							"path": [
 								"v1",
 								"groups",
-								"1"
+								"3"
 							]
 						}
 					},
@@ -350,7 +335,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/v1/groups/1",
+							"raw": "http://127.0.0.1:8000/v1/groups/14",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -362,7 +347,7 @@
 							"path": [
 								"v1",
 								"groups",
-								"1"
+								"14"
 							]
 						}
 					},

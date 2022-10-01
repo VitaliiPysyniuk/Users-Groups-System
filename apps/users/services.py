@@ -2,9 +2,8 @@ from rest_framework.exceptions import ParseError
 
 from .models import UsedModel
 
-AVAILABLE_FILTER_FUNCTIONS = ('email__endswith', 'email__startswith', 'email', 'username__startswith', 'username',
-                              'is_admin', 'created_at__date', 'created_at__date__lt', 'created_at__date__gt',
-                              'groups__in')
+AVAILABLE_FILTER_FUNCTIONS = ('email__endswith', 'email__startswith', 'username__startswith', 'is_admin',
+                              'created_at__date', 'created_at__date__lt', 'created_at__date__gt', 'groups__in')
 
 
 def parse_users_query_params(query_params: dict) -> dict:
