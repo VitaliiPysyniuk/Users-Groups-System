@@ -1,5 +1,8 @@
 from rest_framework.generics import ListCreateAPIView, UpdateAPIView, DestroyAPIView
 from django.db.models import Count
+from rest_framework.exceptions import ParseError
+from rest_framework.response import Response
+from rest_framework import status
 
 from .models import GroupModel
 from .serializers import GroupSerializer, GroupWithExtraFieldSerializer
@@ -23,7 +26,7 @@ class GroupListCreateView(ListCreateAPIView):
         with_members_number = query_params.pop('with_members_number', None)
 
         if with_members_number or [param for param in query_params.keys() if param.startswith('members_number')]:
-            self.queryset = GroupModel.objects.values('id', 'name', 'description')\
+            self.queryset = GroupModel.objects.values('id', 'name', 'description') \
                 .annotate(members_number=Count('users__id')).order_by('id')
             self.serializer_class = GroupWithExtraFieldSerializer
 
@@ -46,5 +49,13 @@ class GroupUpdateDestroyView(UpdateAPIView, DestroyAPIView):
     serializer_class = GroupSerializer
     lookup_field = 'id'
 
+    def delete(self, request, *args, **kwargs):
+        self.queryset = GroupModel.objects.prefetch_related('users')
+        return super().delete(request, *args, **kwargs)
 
-
+    def perform_destroy(self, instance):
+        members_number = len(instance.users.all())
+        if members_number != 0:
+            raise ParseError(detail=f'There are still {members_number} members in the group.')
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
