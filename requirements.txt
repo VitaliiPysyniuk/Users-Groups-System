@@ -2,6 +2,7 @@ asgiref==3.5.2
 attrs==22.1.0
 coverage==6.4.4
 Django==4.1.1
+django-cors-headers==3.13.0
 djangorestframework==3.14.0
 flake8==5.0.4
 iniconfig==1.1.1
