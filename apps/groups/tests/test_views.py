@@ -4,12 +4,13 @@ import json
 
 from .test_models import groups_test_data
 from ..models import GroupModel
+from apps.users.models import UsedModel
 from utils import url_reverse_with_query_params
 
 
 @pytest.fixture()
 def create_default_group():
-    GroupModel.objects.create(name='Default group', description='Default group description')
+    return GroupModel.objects.create(name='Default group', description='Default group description')
 
 
 @pytest.mark.django_db
@@ -85,7 +86,7 @@ def test_update_group_with_not_correct_data(client):
 
 @pytest.mark.django_db(reset_sequences=True)
 @pytest.mark.usefixtures('create_default_group')
-def test_delete_user_with_correct_data(client):
+def test_delete_group_with_correct_data(client):
     url = reverse('update_delete_group', kwargs={'id': 1})
 
     response = client.delete(url)
@@ -100,6 +101,20 @@ def test_delete_group_with_not_correct_data(client):
     response = client.delete(url)
 
     assert response.status_code == 404
+
+
+@pytest.mark.django_db(reset_sequences=True)
+@pytest.mark.usefixtures('create_default_group')
+def test_delete_group_with_members(create_default_group, client):
+    user = UsedModel.objects.create(email='user1@gmail.com', username='user1')
+    user.groups.add(create_default_group)
+
+    url = reverse('update_delete_group', kwargs={'id': 1})
+
+    response = client.delete(url)
+
+    assert response.status_code == 400
+    assert response.data['detail'] == 'There are still 1 members in the group.'
 
 
 @pytest.mark.django_db(reset_sequences=True)
@@ -123,25 +138,20 @@ def test_get_all_groups_with_members_number_in_query_params(client):
 @pytest.mark.django_db(reset_sequences=True)
 @pytest.mark.usefixtures('fill_database')
 @pytest.mark.parametrize('params,expected', [
-    ({'members_number__lt': 1}, 0),
-    ({'members_number__lt': 2}, 0),
-    ({'members_number__lt': 3}, 2),
-    ({'members_number__lt': 4}, 4),
-    ({'members_number__lt': 5}, 4),
-    ({'members_number__lt': 6}, 5),
-    ({'members_number__gt': 1}, 5),
-    ({'members_number__gt': 2}, 3),
-    ({'members_number__gt': 3}, 1),
-    ({'members_number__gt': 4}, 1),
-    ({'members_number__gt': 6}, 0),
-    ({'members_number': 1}, 0),
-    ({'members_number': 2}, 2),
-    ({'members_number': 3}, 2),
-    ({'members_number': 4}, 0),
-    ({'members_number': 5}, 1),
-    ({'members_number__gt': 2, 'members_number__lt': 6}, 3),
-    ({'members_number__gt': 3, 'members_number__lt': 5}, 0),
-    ({'members_number__gt': 1, 'members_number__lt': 3}, 2),
+    ({'members_number__lte': 1}, 0),
+    ({'members_number__lte': 2}, 2),
+    ({'members_number__lte': 3}, 4),
+    ({'members_number__lte': 4}, 4),
+    ({'members_number__lte': 5}, 5),
+    ({'members_number__lte': 6}, 5),
+    ({'members_number__gte': 1}, 5),
+    ({'members_number__gte': 2}, 5),
+    ({'members_number__gte': 3}, 3),
+    ({'members_number__gte': 4}, 1),
+    ({'members_number__gte': 6}, 0),
+    ({'members_number__gte': 2, 'members_number__lte': 6}, 5),
+    ({'members_number__gte': 3, 'members_number__lte': 5}, 3),
+    ({'members_number__gte': 1, 'members_number__lte': 3}, 4),
 ])
 def test_groups_filtering_by_members_number_in_query_params(params, expected, client):
     base_url = reverse('get_create_groups')
@@ -162,8 +172,6 @@ def test_groups_filtering_by_members_number_in_query_params(params, expected, cl
 @pytest.mark.django_db(reset_sequences=True)
 @pytest.mark.usefixtures('fill_database')
 @pytest.mark.parametrize('params,expected', [
-    ({'name': 'Group 1'}, 1),
-    ({'name': 'Group1'}, 0),
     ({'name__startswith': 'Group'}, 5),
     ({'name__startswith': 'group'}, 0),
 ])

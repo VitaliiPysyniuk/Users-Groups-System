@@ -1,6 +1,6 @@
 from rest_framework.exceptions import ParseError
 
-AVAILABLE_FILTER_FUNCTIONS = ('name__startswith', 'members_number', 'members_number__lt', 'members_number__gt')
+AVAILABLE_FILTER_FUNCTIONS = ('name__startswith', 'members_number__lte', 'members_number__gte')
 
 
 def parse_groups_query_params(query_params: dict) -> dict:

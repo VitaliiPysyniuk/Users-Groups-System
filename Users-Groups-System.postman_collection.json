@@ -250,12 +250,12 @@
 									"disabled": true
 								},
 								{
-									"key": "members_number__lt",
+									"key": "members_number__lte",
 									"value": "5",
 									"disabled": true
 								},
 								{
-									"key": "members_number__gt",
+									"key": "members_number__gte",
 									"value": "2",
 									"disabled": true
 								}
